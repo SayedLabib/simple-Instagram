@@ -6,6 +6,8 @@ from db.database import get_db
 from models.models import dbPost
 import os
 import uuid
+from app.auth.oauth2 import get_current_user
+from app.services.login.login_schema import userAuth
 
 router = APIRouter(
     prefix="/create_post",
@@ -19,7 +21,7 @@ image_url_type = ["url", "base64"]
 
 
 @router.post("/", response_model=showPost)
-def Create_post(post: createPost, db: Session = Depends(get_db)):
+def Create_post(post: createPost, db: Session = Depends(get_db), current_user: userAuth = Depends(get_current_user)):
     if post.image_url_type not in image_url_type:
         raise HTTPException(status_code=422, detail="Unprocessable image_url_type. Must be 'url' or 'base64'.")
 
@@ -37,7 +39,7 @@ UPLOAD_CHUNK_SIZE = 1024 * 1024  # 1 MB
 
 @router.post("/uploadImage")
 
-def upload_image(image: UploadFile = File(...), request:Request = None):
+def upload_image(image: UploadFile = File(...), request:Request = None, current_user: userAuth = Depends(get_current_user)):
 
     extension = os.path.splitext(image.filename)[1]
     random_filename = f"{uuid.uuid4()}{extension}"
