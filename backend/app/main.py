@@ -9,8 +9,19 @@ from app.services.login.login_router import router as login_router
 from app.services.delete_post.delete_route import router as delete_post_router
 from app.services.comments.comments_route import router as comments_router
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
+
 app.include_router(create_user_router)
 app.include_router(create_post_router)
 app.include_router(get_posts_router)
