@@ -8,7 +8,7 @@ from db.database import get_db
 
 from app.auth.oauth2 import get_current_user
 from app.services.login.login_schema import userAuth
-from models.models import dbComment
+from models.models import dbComment, dbPost
 
 
 router = APIRouter(
@@ -20,7 +20,7 @@ router = APIRouter(
 @router.get('/get_comments/{post_id}')
 
 async def get_post_comments(post_id: int, db: Session = Depends(get_db)):
-    comments = dbComment.get_comments(db, post_id)
+    comments = db.query(dbComment).filter(dbComment.post_id == post_id).all()
     return comments
 
 
