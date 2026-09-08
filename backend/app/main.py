@@ -8,6 +8,7 @@ from app.services.get_posts.get_posts_router import router as get_posts_router
 from app.services.login.login_router import router as login_router
 from app.services.delete_post.delete_route import router as delete_post_router
 from app.services.comments.comments_route import router as comments_router
+from app.services.delete_user.delete_user_route import router as delete_user_router
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -23,12 +24,15 @@ app.add_middleware(
 
 
 app.include_router(create_user_router)
+app.include_router(delete_user_router)
 app.include_router(create_post_router)
 app.include_router(get_posts_router)
-app.include_router(login_router)
 app.include_router(delete_post_router)
+
+app.include_router(login_router)
 app.include_router(comments_router)
 app.include_router(comments_router)
+
 
 
 

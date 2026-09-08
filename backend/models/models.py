@@ -21,7 +21,7 @@ class dbPost(Base):
     timestamp = Column(DateTime)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("dbUser", back_populates="items")
-    comments = relationship("dbComment", back_populates="post")
+    comments = relationship("dbComment", back_populates="post", cascade="all, delete-orphan")
 
 
 
